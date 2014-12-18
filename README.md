@@ -48,7 +48,9 @@ pip install -r requirements.txt
 
 # See It
 
-Visit <http://localhost:5000>
+Visit <http://localhost:5000/?name=YOURNAME>
+
+Or, see it online at <http://santaclaus-api.herokuapp.com/?name=YOURNAME>
 
 
 #Resources
