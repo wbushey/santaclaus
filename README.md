@@ -53,6 +53,14 @@ Visit <http://localhost:5000/?name=YOURNAME>
 Or, see it online at <http://claus.io/?name=YOURNAME>
 
 
+# Configure a Database
+
+With no configuration, the Santa Claus API will create and use a SQLite 
+database in `santa.db`. If you have a Postgres database ready to use, you can 
+configure the Santa Claus API to use it by setting the `$DATABASE_URL` to the
+URL of the Postgres instance.
+
+
 #Resources
 
 [The Flask Mega Tutorial](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)

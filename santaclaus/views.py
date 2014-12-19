@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 from santaclaus import app
 from flask import jsonify, request
 import random

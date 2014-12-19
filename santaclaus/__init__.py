@@ -1,4 +1,6 @@
+# -*- coding: utf8 -*-
 from flask import Flask
+from flask.ext.sqlalchemy import SQLAlchemy
 import os
 
 app = Flask(__name__)
