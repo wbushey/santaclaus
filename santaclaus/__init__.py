@@ -2,6 +2,8 @@ from flask import Flask
 import os
 
 app = Flask(__name__)
+app.config.from_object('config')
+db = SQLAlchemy(app)
 
 if not app.debug and os.environ.get('HEROKU') is None:
     import logging
