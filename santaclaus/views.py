@@ -1,19 +1,21 @@
 # -*- coding: utf8 -*-
-from santaclaus import app
+from santaclaus import app, db
 from flask import jsonify, request
-import random
-
-statuses = [
-    "Naughty",
-    "Nice",
-]
+from .models import Person
 
 
-def naughty_or_nice(name):
-    status = random.choice(statuses)
-    rtn = {'name': name,
-           'status': status}
-    return rtn
+def get_status(name):
+
+    person = Person.query.filter_by(name=name).first()
+    if person is None:
+        person = Person(name)
+        db.session.add(person)
+        db.session.commit()
+        app.logger.info('Remembering that %s is %s' % (person.name,
+                        person.status))
+
+    return {'name': person.name,
+            'status': person.status}
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -31,7 +33,7 @@ def index():
         rtn = {'error': "Must provide 'name' parameter"}
         status = 400
     else:
-        rtn = naughty_or_nice(name)
+        rtn = get_status(name)
         status = 200
 
     return jsonify(rtn), status

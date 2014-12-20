@@ -24,4 +24,4 @@ if os.environ.get('HEROKU') is not None:
     app.logger.setLevel(logging.INFO)
     app.logger.info('microblog startup')
 
-from santaclaus import views
+from santaclaus import views, models
