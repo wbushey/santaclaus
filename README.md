@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/wbushey/santaclaus.svg?branch=master)](https://travis-ci.org/wbushey/santaclaus)
+
 Santa Claus API
 =========================
 
