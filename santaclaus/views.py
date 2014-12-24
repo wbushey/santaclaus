@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
-from santaclaus import app, db
 from flask import jsonify, request
+from santaclaus import app, db
 from .models import Person
 
 
@@ -18,7 +18,7 @@ def get_status(name):
             'status': person.status}
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
     rtn = {}
     status = 400
@@ -37,3 +37,19 @@ def index():
         status = 200
 
     return jsonify(rtn), status
+
+
+@app.route('/lists/<listname>', methods=['GET'])
+def get_list(listname):
+    listname = listname.capitalize()
+    app.logger.info("Requst for list '%s'" % listname)
+    if listname not in Person.statuses:
+        rtn = {'error': "I don't keep a '%s' list" % listname}
+        return jsonify(rtn), 400
+
+    l = [p.name for p in Person.query.filter_by(status=listname)]
+    rtn = {
+        'list_name': listname,
+        'list': l
+        }
+    return jsonify(rtn), 200

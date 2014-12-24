@@ -19,7 +19,6 @@ class SantaClausTest(unittest.TestCase):
         self.fake = Faker()
 
     def tearDown(self):
-        pass
         os.close(self.db_fd)
         os.unlink(app.config['SQLALCHEMY_DATABASE_URL'])
 
@@ -56,3 +55,32 @@ class SantaClausTest(unittest.TestCase):
 
         # Computer randomness is far from perfect, so let's test in a range
         self.assertTrue(naughties > 40 and naughties < 60)
+
+    def test_valid_list_requests(self):
+        persons = {
+            'Naughty': [],
+            'Nice': []
+        }
+
+        for i in range(10):
+            p = Person(self.fake.name())
+            persons[p.status].append(p.name)
+            db.session.add(p)
+        db.session.commit()
+
+        naught_r = self.app.get('/lists/naughty')
+        self.assert_json_response(naught_r)
+        self.assertEqual(naught_r.status_code, 200)
+        nice_r = self.app.get('/lists/nice')
+        self.assert_json_response(nice_r)
+        self.assertEqual(nice_r.status_code, 200)
+
+        naughty_list = json.loads(naught_r.data)['list']
+        nice_list = json.loads(nice_r.data)['list']
+        naughty_list_complete = all(
+            name in naughty_list for name in persons['Naughty'])
+        nice_list_complete = all(
+            name in nice_list for name in persons['Nice'])
+
+        self.assertTrue(naughty_list_complete)
+        self.assertTrue(nice_list_complete)
