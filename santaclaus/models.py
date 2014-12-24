@@ -22,5 +22,8 @@ class Person(db.Model):
         self.status = status
 
     def decide_status(self):
-        status = random.choice(Person.statuses)
+        if random.random() < 0.25:
+            status = Person.statuses[0]
+        else:
+            status = Person.statuses[1]
         return status

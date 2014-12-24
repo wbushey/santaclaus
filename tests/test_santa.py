@@ -54,7 +54,7 @@ class SantaClausTest(unittest.TestCase):
                 naughties = naughties + 1
 
         # Computer randomness is far from perfect, so let's test in a range
-        self.assertTrue(naughties > 40 and naughties < 60)
+        self.assertTrue(naughties > 15 and naughties < 35)
 
     def test_valid_list_requests(self):
         persons = {
