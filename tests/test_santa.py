@@ -1,14 +1,23 @@
 # -*- coding: utf8 -*-
 from __future__ import absolute_import, unicode_literals
-import santaclaus
-import unittest
 import json
+import os
+import tempfile
+import unittest
+from santaclaus import app, db
 
 class SantaClausTest(unittest.TestCase):
 
     def setUp(self):
-        santaclaus.app.config['TESTING'] = True
-        self.app = santaclaus.app.test_client()
+        self.db_fd, app.config['SQLALCHEMY_DATABASE_URL'] = tempfile.mkstemp()
+        app.config['TESTING'] = True
+        self.app = app.test_client()
+        db.create_all()
+
+    def tearDown(self):
+        pass
+        os.close(self.db_fd)
+        os.unlink(app.config['SQLALCHEMY_DATABASE_URL'])
 
     def assert_json_response(self, r):
         self.assertEqual(r.headers['Content-Type'], 'application/json')
