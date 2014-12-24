@@ -6,10 +6,10 @@ from santaclaus.models import Person
 from santa_test_helper import SantaClausTestCase
 
 
-class SantaClausV0Test(SantaClausTestCase):
+class SantaClausV1Test(SantaClausTestCase):
 
     def test_request_with_a_name(self):
-        r = self.app.get('/?name=%s' % self.fake.name().replace(" ", "%20"))
+        r = self.app.get('/api/v1/status/?name=%s' % self.fake.name().replace(" ", "%20"))
 
         self.assertEqual(r.status_code, 200)
         self.assert_json_response(r)
@@ -18,7 +18,7 @@ class SantaClausV0Test(SantaClausTestCase):
         self.assertTrue('status' in data_js)
 
     def test_request_without_a_name(self):
-        r = self.app.get('/')
+        r = self.app.get('/api/v1/status/')
 
         self.assertEqual(r.status_code, 400)
         self.assert_json_response(r)
@@ -37,10 +37,10 @@ class SantaClausV0Test(SantaClausTestCase):
             db.session.add(p)
         db.session.commit()
 
-        naught_r = self.app.get('/lists/naughty')
+        naught_r = self.app.get('/api/v1/lists/naughty')
         self.assert_json_response(naught_r)
         self.assertEqual(naught_r.status_code, 200)
-        nice_r = self.app.get('/lists/nice')
+        nice_r = self.app.get('/api/v1/lists/nice')
         self.assert_json_response(nice_r)
         self.assertEqual(nice_r.status_code, 200)
 

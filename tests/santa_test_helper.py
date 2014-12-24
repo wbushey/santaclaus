@@ -7,7 +7,7 @@ import unittest
 from santaclaus import app, db
 
 
-class SantaTestCase(unittest.TestCase):
+class SantaClausTestCase(unittest.TestCase):
     def setUp(self):
         self.db_fd, app.config['SQLALCHEMY_DATABASE_URL'] = tempfile.mkstemp()
         app.config['TESTING'] = True

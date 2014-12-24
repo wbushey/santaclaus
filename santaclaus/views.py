@@ -18,6 +18,7 @@ def get_status(name):
             'status': person.status}
 
 
+@app.route('/api/v1/status/', methods=['GET'])
 @app.route('/', methods=['GET'])
 def index():
     rtn = {}
@@ -39,6 +40,7 @@ def index():
     return jsonify(rtn), status
 
 
+@app.route('/api/v1/lists/<listname>', methods=['GET'])
 @app.route('/lists/<listname>', methods=['GET'])
 def get_list(listname):
     listname = listname.capitalize()
